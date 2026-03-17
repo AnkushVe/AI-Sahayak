@@ -4,17 +4,26 @@
 <img src="https://img.shields.io/badge/Built%20with-Amazon%20Bedrock-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white" />
 <img src="https://img.shields.io/badge/Language-Hinglish%20%F0%9F%87%AE%F0%9F%87%B3-138808?style=for-the-badge" />
 
-# 🛒 AI Sahayak
+<h1>
+  <img src="app/frontend/public/Generated_image.png" alt="AI Sahayak logo" width="48" />
+  AI Sahayak
+</h1>
 
 ### *Proactive Intelligence for Indian Kirana & MSMEs*
 
-**AI Sahayak** is a hackathon project for **AWS AI for Bharat**: a proactive intelligence platform for small shopkeepers and MSMEs. It combines a **Control Centre** (KPIs, demand forecast, pricing, what-if) with **My Day** — a Hinglish chat where live alerts (festivals, news, daily summary) appear and where the user can set alert times (*"set alert for 2 pm"*). Five demo retailers (Raju, Ramesh, Suresh, Kanta, Lakshmi) are pre-seeded; sign in as any to see that persona’s dashboard and alerts.
+**AI Sahayak** is a hackathon project for **AWS AI for Bharat**: a proactive intelligence platform for small shopkeepers and MSMEs. It combines a **Control Centre** (KPIs, demand forecast, pricing, what-if) with **My Day** — a Hinglish chat where live alerts (festivals, news, daily summary) appear and where the user can set alert times (*"set alert for 2 pm"*). Five demo retailers (Raju, Ramesh, Suresh, Kanta, Lakshmi) are pre-seeded; sign in as any to see that persona's dashboard and alerts.
 
 > "Kal festival hai — demand badhega, stock aur price dono check kar lo."
 >
 > *AI Sahayak tells you what you need to know before you have to ask.*
 
 [Features](#-features) · [Architecture](#-architecture) · [Tech Stack](#-tech-stack) · [Quick Start](#-quick-start) · [Project Structure](#-project-structure) · [Demo Users](#-demo-users)
+
+### 🎬 Demo Video
+
+[![AI Sahayak Demo](https://drive.google.com/thumbnail?id=1ik-oeAu50V4CuQVZb5uEvjqQ32nhspJy&sz=w1280)](https://drive.google.com/file/d/1ik-oeAu50V4CuQVZb5uEvjqQ32nhspJy/view?usp=sharing)
+
+*Click the thumbnail to watch the full demo on Google Drive.*
 
 </div>
 
@@ -30,7 +39,7 @@ They lose out when they over-order before a price crash, under-stock before a de
 
 ## 💡 The Solution
 
-**AI Sahayak** is a proactive intelligence platform that acts like a smart business partner for small business owners. It doesn’t wait for you to ask — it tells you what you need to know, when you need it, in **Hinglish** (Hindi + English mix).
+**AI Sahayak** is a proactive intelligence platform that acts like a smart business partner for small business owners. It doesn't wait for you to ask — it tells you what you need to know, when you need it, in **Hinglish** (Hindi + English mix).
 
 The core idea: **Proactive > Reactive**. The system uses your calendar, business data, and relevant news to reach out to *you*.
 
@@ -82,50 +91,24 @@ Same Hinglish chat and proactive alerts on WhatsApp — the channel most small b
 
 ## 🏗 Architecture
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                         PROACTIVE PIPELINE                       │
-│                                                                  │
-│  AWS Change Calendar ──► EventBridge (e.g. every 30 min)       │
-│          ↓                        ↓                             │
-│   SSM Calendar           Lambda: alerts-handler                 │
-│                           ├── DynamoDB: ai-sahayak-users        │
-│                           │   (user_id, alert_time_*_ist)       │
-│                           ├── S3 (national + regional calendar) │
-│                           ├── RSS (MSME-relevant news)          │
-│                           └── POST → Backend Webhook             │
-└──────────────────────────────────┬──────────────────────────────┘
-                                   ↓
-┌──────────────────────────────────────────────────────────────────┐
-│                     AGENTS BACKEND (FastAPI)                      │
-│                                                                   │
-│  /v1/chat        → LangGraph RetailAssistant Graph               │
-│  /v1/alerts/*    → Alert store + SSE push to frontend            │
-│  /v1/webhooks    → WhatsApp Business API                         │
-│  /v1/tts         → Amazon Polly (voice output)                   │
-│  /v1/profile     → User preferences (MongoDB + DynamoDB)         │
-│                                                                   │
-│  LangGraph Workflows: sales · pricing · forecast · inventory     │
-│                        what-if · general · alert-preferences     │
-│  Amazon Bedrock: Nova Lite (chat) · Vision (shelf analysis)      │
-│  SageMaker: DeepAR endpoint (per-user demand forecasting)        │
-└──────────────┬───────────────────────────────────────────────────┘
-               ↓                          ↓
-┌─────────────────────────┐   ┌─────────────────────────────┐
-│   DASHBOARD (Flask API) │   │   FRONTEND (React + Vite)   │
-│                         │   │                             │
-│  /api/kpis              │   │  Landing Page               │
-│  /api/forecast          │   │  Onboarding (chat-based)    │
-│  /api/price             │   │  Dashboard embed            │
-│  /api/model-status      │   │  My Day (alerts + chat)     │
-│  Bedrock explanations   │   │  Amazon Cognito auth        │
-│  SageMaker DeepAR       │   │  Tailwind + Lucide icons    │
-└─────────────────────────┘   └─────────────────────────────┘
-```
+**Project deck (submitted to AWS):** [View Main PPT on GitHub](diagrams/Main_PPT.pdf)
+
+![Architecture diagram of the proposed solution](diagrams/Archtecture_diagram.png)
+
+#### Mock / Wireframe
+![Mock diagram of proposed solution](diagrams/Mock_diagram_of_proposed_solution.png)
+
+#### Process flow
+![Process flow diagram](diagrams/Process_flow_Diagram.png)
+
+#### Use case
+![Use case diagram](diagrams/Use_case_diagram.png)
 
 ---
 
 ## 🛠 Tech Stack
+
+![Technologies utilized in the solution](diagrams/Technology_utilized_diagram.png)
 
 | Layer | Technology |
 |---|---|
@@ -154,8 +137,8 @@ Same Hinglish chat and proactive alerts on WhatsApp — the channel most small b
 
 ### 1. Clone
 ```bash
-git clone https://github.com/Sid3503/ai-sahayak.git
-cd ai-sahayak
+git clone https://github.com/AnkushVe/AI-Sahayak.git
+cd AI-Sahayak
 ```
 
 ### 2. Set up environment files
